@@ -36,7 +36,7 @@ defs.append("pattern")
 
    
 // Scale the circles
-var radiusScale = d3.scaleSqrt().domain([5, 30]).range([10, 80])
+var radiusScale = d3.scaleSqrt().domain([1, 4.5]).range([5, 30])
 
 // Define combine/separate forces
 var forceXCombine = d3.forceX(width / 2).strength(0.05)
@@ -58,33 +58,33 @@ var simulation = d3.forceSimulation()
 }))
 
 // Import Data
-var file = "https://raw.githubusercontent.com/avangemert/interactive-d3-bubble-chart/master/assets/data/data.csv"
+var file = "https://raw.githubusercontent.com/avangemert/d3-interactive-divorce/master/assets/data/data.csv"
 d3.csv(file).then(successHandle, errorHandle);
 
 function errorHandle(error){
     throw err;
 }
 
-function successHandle(marriageData){
+function successHandle(divorceData){
 
     // Print the healthData
-    console.log(marriageData);
+    console.log(divorceData);
 
     // Scale the circles
-    var radiusScale = d3.scaleSqrt().domain([5, 30]).range([10, 80])
+    var radiusScale = d3.scaleSqrt().domain([1, 4.5]).range([5, 30])
 
     // Initialize tooltip
     var toolTip = d3.tip()
     .attr("class", "d3-tip")
     .html(function(d) {
-        return(`<h6>${d.state}</h6>Marriage Rate: ${d.rate}%`);});
+        return(`<h6>${d.state}</h6>Divorce Rate: ${d.rate}%`);});
     
     // Create tooltip in the chart
     svg.call(toolTip);
 
     // Create circles
     var circles = svg.selectAll(".state")
-    .data(marriageData)
+    .data(divorceData)
     .enter()
     .append("circle")
     .attr("class", "state")
@@ -92,7 +92,7 @@ function successHandle(marriageData){
         return radiusScale(d.rate);
     })
     .attr("fill", function(d){
-        return "url(#wedding-rings)"
+        return "url(#broken_heart)"
     })
     .on('click', function(d){
         toolTip.show(d, event.target)
@@ -102,10 +102,10 @@ function successHandle(marriageData){
     });
 
     defs.selectAll(".state-flower-pattern")
-    .data(marriageData)
+    .data(divorceData)
     .enter().append("pattern")
     .attr("class", "state-flower-pattern")
-    .attr("id", "wedding-rings")
+    .attr("id", "broken_heart")
     .attr("height", "100%")
     .attr("width", "100%")
     .attr("patternContentUnits", "objectBoundingBox")
@@ -114,7 +114,7 @@ function successHandle(marriageData){
     .attr("width", 1)
     .attr("preserveAspectRatio", "none")
     .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
-    .attr("xlink:href", "wedding-rings.jpg")
+    .attr("xlink:href", "broken_heart.png")
 
     // Event listeners for buttons
     d3.select("#party").on('click', function() {
@@ -131,7 +131,7 @@ function successHandle(marriageData){
         .restart()
     })
 
-    simulation.nodes(marriageData)
+    simulation.nodes(divorceData)
     .on('tick', ticked)
 
     function ticked(){
