@@ -77,7 +77,7 @@ function successHandle(divorceData){
     var toolTip = d3.tip()
     .attr("class", "d3-tip")
     .html(function(d) {
-        return(`<h6>${d.state}</h6>Divorce Rate: ${d.rate}%`);});
+        return(`<h6>${d.state}</h6>Divorce Rate: ${d.rate}`);});
     
     // Create tooltip in the chart
     svg.call(toolTip);
